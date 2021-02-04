@@ -5,7 +5,7 @@
 ![Platform](https://img.shields.io/badge/platform-android%20%7C%20ios%20%7C%20windows-lightgrey.svg)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R7STJ6V2PNEMA)
 
-This is a cordova plugin to get data from the SIM card like the carrier name, mcc, mnc and country code and other system dependent additional info.
+This is a cordova plugin to get data from the SIM card like the carrier name, mcc, mnc and country code and other system dependent additional info. Updated from pbakodny's original plugin for android 10 which doesnt allow IMEI or SIM Serial No be accessed by any 3rd party app, in which case the original plugin fails.
 
 
 ## Installation
