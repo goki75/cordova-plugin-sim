@@ -110,7 +110,7 @@ public class Sim extends CordovaPlugin {
 
               String deviceId = null;
               // TelephonyManager.getDeviceId(slotId) requires API 23
-              if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+              if ((android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) && (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q)) {
                 deviceId = manager.getDeviceId(simSlotIndex);
               }
 
@@ -125,10 +125,13 @@ public class Sim extends CordovaPlugin {
               simData.put("isDataRoaming", (dataRoaming == 1));
               simData.put("simSlotIndex", simSlotIndex);
               simData.put("phoneNumber", number);
-              if (deviceId != null) {
-                simData.put("deviceId", deviceId);
-              }
+              if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
+                if (deviceId != null) {
+                  simData.put("deviceId", deviceId);
+                }
               simData.put("simSerialNumber", iccId);
+                }
+              }
               simData.put("subscriptionId", subscriptionId);
 
               sims.put(simData);
@@ -162,10 +165,12 @@ public class Sim extends CordovaPlugin {
 
       if (simPermissionGranted(Manifest.permission.READ_PHONE_STATE)) {
         phoneNumber = manager.getLine1Number();
-        deviceId = manager.getDeviceId();
         deviceSoftwareVersion = manager.getDeviceSoftwareVersion();
-        simSerialNumber = manager.getSimSerialNumber();
-        subscriberId = manager.getSubscriberId();
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
+          deviceId = manager.getDeviceId();
+          simSerialNumber = manager.getSimSerialNumber();
+          subscriberId = manager.getSubscriberId();
+        }
       }
 
       String mcc = "";
@@ -203,10 +208,13 @@ public class Sim extends CordovaPlugin {
 
       if (simPermissionGranted(Manifest.permission.READ_PHONE_STATE)) {
         result.put("phoneNumber", phoneNumber);
-        result.put("deviceId", deviceId);
         result.put("deviceSoftwareVersion", deviceSoftwareVersion);
-        result.put("simSerialNumber", simSerialNumber);
-        result.put("subscriberId", subscriberId);
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
+          result.put("deviceId", deviceId);
+          result.put("simSerialNumber", simSerialNumber);
+          result.put("subscriberId", subscriberId);
+        }
+        
       }
 
       if (sims != null && sims.length() != 0) {
